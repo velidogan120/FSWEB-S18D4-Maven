@@ -5,7 +5,7 @@ import com.workintech.s18d1.controller.BurgerController;
 import com.workintech.s18d1.dao.BurgerDao;
 import com.workintech.s18d1.entity.BreadType;
 import com.workintech.s18d1.entity.Burger;
-import com.workintech.s18d1.exceptions.BurgerException;
+import com.workintech.s18d1.exceptions.BurgerErrorException;
 import com.workintech.s18d1.exceptions.GlobalExceptionHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -96,7 +96,7 @@ class ApplicationPropertiesAndControllerTest {
     @Test
     @DisplayName("Burger not found exception test")
     void testBurgerNotFoundException() throws Exception {
-        given(burgerDao.findById(anyLong())).willThrow(new BurgerException("Burger not found", HttpStatus.NOT_FOUND));
+        given(burgerDao.findById(anyLong())).willThrow(new BurgerErrorException("Burger not found", HttpStatus.NOT_FOUND));
 
         mockMvc.perform(get("/burger/{id}", 1L))
                 .andExpect(status().isNotFound())

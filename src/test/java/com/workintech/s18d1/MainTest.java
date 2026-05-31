@@ -5,7 +5,7 @@ import com.workintech.s18d1.dao.BurgerDaoImpl;
 import com.workintech.s18d1.entity.BreadType;
 import com.workintech.s18d1.entity.Burger;
 import com.workintech.s18d1.exceptions.BurgerErrorResponse;
-import com.workintech.s18d1.exceptions.BurgerException;
+import com.workintech.s18d1.exceptions.BurgerErrorException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;
@@ -111,7 +111,7 @@ class MainTest {
     @Test
     void testFindById_NotExists() {
         when(entityManager.find(Burger.class, 999L)).thenReturn(null);
-        assertThrows(BurgerException.class, () -> burgerDao.findById(999L));
+        assertThrows(BurgerErrorException.class, () -> burgerDao.findById(999L));
     }
 
     @Test
@@ -178,7 +178,7 @@ class MainTest {
         String expectedMessage = "Test exception message";
         HttpStatus expectedStatus = HttpStatus.BAD_REQUEST;
 
-        BurgerException exception = new BurgerException(expectedMessage, expectedStatus);
+        BurgerErrorException exception = new BurgerErrorException(expectedMessage, expectedStatus);
 
 
         assertEquals(expectedMessage, exception.getMessage(), "The exception message should match the expected value.");
@@ -187,7 +187,7 @@ class MainTest {
 
     @Test
     void testBurgerExceptionIsRuntimeException() {
-        BurgerException exception = new BurgerException("Test", HttpStatus.BAD_REQUEST);
+        BurgerErrorException exception = new BurgerErrorException("Test", HttpStatus.BAD_REQUEST);
 
 
         assertTrue(exception instanceof RuntimeException, "BurgerException should be an instance of RuntimeException.");
