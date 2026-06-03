@@ -13,7 +13,7 @@ public class BurgerValidation {
     }
 
     public static void validateId(Long id) {
-        if (id == null || id <= 0) {
+        if (id == null) {
             throw new BurgerErrorException("Invalid ID", HttpStatus.BAD_REQUEST);
         }
     }

@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
         log.error("Unexpected error: {}", ex.getMessage());
 
         return new ResponseEntity<>(
-                new BurgerErrorResponse("Unexpected error occurred"),
-                HttpStatus.BAD_REQUEST
+                new BurgerErrorResponse("Unexpected error"),
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 }

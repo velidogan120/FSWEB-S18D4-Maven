@@ -68,6 +68,7 @@ public class BurgerDaoImpl implements BurgerDao {
     @Transactional
     public Burger remove(Long id) {
         Burger burger = entityManager.find(Burger.class, id);
+        entityManager.remove(burger);
         return burger;
     }
 }

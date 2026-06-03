@@ -7,12 +7,11 @@ import com.workintech.s18d1.util.BurgerValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/workintech/burgers")
+@RequestMapping("/burger")
 public class BurgerController {
 
     private final BurgerDao burgerDao;
@@ -23,68 +22,46 @@ public class BurgerController {
 
     @GetMapping
     public List<Burger> getAll() {
-        log.info("GET all burgers called");
+        log.info("GET all burgers");
         return burgerDao.findAll();
     }
 
     @GetMapping("/{id}")
     public Burger getById(@PathVariable Long id) {
-
         BurgerValidation.validateId(id);
-
-        log.info("GET burger by id: {}", id);
         return burgerDao.findById(id);
     }
 
     @PostMapping
-    public void save(@RequestBody Burger burger) {
-
+    public Burger save(@RequestBody Burger burger) {
         BurgerValidation.validateBurger(burger);
-
-        log.info("POST new burger: {}", burger.getName());
-        burgerDao.save(burger);
+        return burgerDao.save(burger);
     }
 
-    @PutMapping("/{id}")
-    public void update(@PathVariable Long id,
-                       @RequestBody Burger burger) {
-
-        BurgerValidation.validateId(id);
+    @PutMapping
+    public Burger update(@RequestBody Burger burger) {
         BurgerValidation.validateBurger(burger);
-
-        burger.setId(id);
-
-        log.info("UPDATE burger id: {}", id);
-        burgerDao.update(burger);
+        return burgerDao.update(burger);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-
+    public Burger delete(@PathVariable Long id) {
         BurgerValidation.validateId(id);
-
-        log.info("DELETE burger id: {}", id);
-        burgerDao.remove(id);
+        return burgerDao.remove(id);
     }
 
-    @GetMapping("/findByPrice")
-    public List<Burger> findByPrice(@RequestBody Integer price) {
-
-        log.info("Find by price: {}", price);
+    @GetMapping("/price/{price}")
+    public List<Burger> findByPrice(@PathVariable Integer price) {
         return burgerDao.findByPrice(price);
     }
 
-    @GetMapping("/findByBreadType")
-    public List<Burger> findByBreadType(@RequestBody BreadType breadType) {
-
-        log.info("Find by breadType: {}", breadType);
+    @GetMapping("/breadType/{breadType}")
+    public List<Burger> findByBreadType(@PathVariable BreadType breadType) {
         return burgerDao.findByBreadType(breadType);
     }
 
-    @GetMapping("/findByContent")
-    public List<Burger> findByContent(@RequestBody String content) {
-
-        log.info("Find by content: {}", content);
+    @GetMapping("/content/{content}")
+    public List<Burger> findByContent(@PathVariable String content) {
         return burgerDao.findByContent(content);
     }
 }
